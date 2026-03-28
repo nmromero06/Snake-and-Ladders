@@ -7,32 +7,28 @@ import b2pawn from './b2pawn.png'
 
 function App() {
   let title = "Snakes and Ladders"
-  const [mypos, setmypos] = useState(0)
-  const [bot1pos, setbot1pos] = useState(0)
-  const [bot2pos, setbot2pos] = useState(0)
+  const [mypos, setmypos] = useState(1)
+  const [bot1pos, setbot1pos] = useState(1)
+  const [bot2pos, setbot2pos] = useState(1)
   const [numbots, setnumbots] = useState(1)
   const [message, setmessage] = useState("Press Roll Dice to play!")
+  const ladders = [[1,38], [4,14], [8,30], [21,42], [50,69], [28,76], [71,92], [80,99]]
+  const snakes = [[36,6], [32,10], [48,26], [62,18], [88,24], [95,56], [97,78]]
   const rolldice = () => {
     return Math.floor(Math.random() * 6) + 1
   }
   const checksnakeladder = (pos) => {
     // ladders
-    if (pos === 1)  { return 38 }
-    if (pos === 4)  { return 14 }
-    if (pos === 8)  { return 30 }
-    if (pos === 21) { return 42 }
-    if (pos === 50) { return 69 }
-    if (pos === 28) { return 76 }
-    if (pos === 71) { return 92 }
-    if (pos === 80) { return 99 }
-    // snakes
-    if (pos === 36) { return 6 }
-    if (pos === 32) { return 10 }
-    if (pos === 48) { return 26 }
-    if (pos === 62) { return 18 }
-    if (pos === 88) { return 24 }
-    if (pos === 95) { return 56 }
-    if (pos === 97) { return 78 }
+    for (let i = 0; i < ladders.length; i++) {
+      if (pos === ladders[i][0]) {
+        return ladders[i][1]
+      }
+    }
+    for (let i = 0; i < snakes.length; i++) {
+      if (pos === snakes[i][0]) {
+        return snakes[i][1]
+      }
+    }
     return pos
   }
   const moveplayer = (current, dice) => {
@@ -44,9 +40,9 @@ function App() {
     return newpos
   }
   const resetgame = () => {
-    setmypos(0)
-    setbot1pos(0)
-    setbot2pos(0)
+    setmypos(1)
+    setbot1pos(1)
+    setbot2pos(1)
     setmessage("Game reset! Press Roll Dice to play.")
   }
   const switchbots = () => {
@@ -64,8 +60,10 @@ function App() {
     let newme = moveplayer(mypos, myroll)
     if (newme === 100) {
       setmypos(newme)
-      alert(`You rolled ${myroll} and reached square ${newme}. You win! Congrats!`)
-      resetgame()
+      setTimeout(() => {
+        alert(`You rolled ${myroll} and reached square ${newme}. You win! Congrats!`)
+        resetgame()
+      }, 500)
       return
     }
     let roll1 = rolldice()
@@ -73,8 +71,11 @@ function App() {
     if (newbot1 === 100) {
       setmypos(newme)
       setbot1pos(newbot1)
-      alert(`You rolled ${myroll}, now on square ${newme}. Bot 1 rolled ${roll1} and reached square ${newbot1}. Bot 1 wins!`)
-      resetgame()
+      setTimeout(() => {
+        alert(`You rolled ${myroll}, now on square ${newme}. Bot 1 rolled ${roll1} and reached square ${newbot1}. Bot 1 wins!`)
+
+        resetgame()
+      }, 500)
       return
     }
     let msg = `You rolled ${myroll}, now on square ${newme}. Bot 1 rolled ${roll1}, now on ${newbot1}.`
@@ -82,11 +83,14 @@ function App() {
       let roll2 = rolldice()
       let newbot2 = moveplayer(bot2pos, roll2)
       if (newbot2 === 100) {
+        
         setmypos(newme)
         setbot1pos(newbot1)
         setbot2pos(newbot2)
-        alert(`You rolled ${myroll}, now on square ${newme}. Bot 1 rolled ${roll1}, now on ${newbot1}. Bot 2 rolled ${roll2} and reached square ${newbot2}. Bot 2 wins!`)
-        resetgame()
+        setTimeout(() => {
+          alert(`You rolled ${myroll}, now on square ${newme}. Bot 1 rolled ${roll1}, now on ${newbot1}. Bot 2 rolled ${roll2} and reached square ${newbot2}. Bot 2 wins!`)
+          resetgame()
+        }, 500)
         return
       }
       setbot2pos(newbot2)
@@ -144,7 +148,7 @@ function App() {
           {numbots === 2 && <h2>Bot 2 position: {bot2pos}</h2>}
           <h3>Number of bots: {numbots}</h3>
           <h3>{message}</h3>
-          <button onClick={rollandmove}>Roll Dice</button>
+          <button onClick={rollandmove} className="roll-button">Roll Dice</button>
           <button onClick={switchbots}>{numbots === 1 ? "Play vs 2 Bots" : "Play vs 1 Bot"}</button>
           <button onClick={resetgame}>Reset</button>
           <div className="legend">
