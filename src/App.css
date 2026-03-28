@@ -1,21 +1,27 @@
 body {
   margin: 0;
-  background-color: aliceblue;
+  background: linear-gradient(135deg, aliceblue, ghostwhite);
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: darkslategray;
 }
 
 .App {
-  padding: 32px 24px;
+  padding: 40px 20px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .App h1 {
+  font-size: 52px;
   text-align: center;
-  color: darkslateblue;
-  margin-bottom: 24px;
+  color: slateblue;
+  margin-bottom: 32px;
+  letter-spacing: 1px;
 }
 
 .gamearea {
   display: flex;
-  gap: 32px;
+  gap: 40px;
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
@@ -23,13 +29,17 @@ body {
 
 .boardwrap {
   position: relative;
-  display: inline-block;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px gray;
 }
 
 .boardimg {
   display: block;
   width: 500px;
   height: 500px;
+  border-radius: 12px;
+  border: 2px solid lightgray;
 }
 
 .tokenoverlay {
@@ -50,46 +60,45 @@ body {
 }
 
 .info {
-  max-width: 280px;
-  border: 1px solid lightgray;
-  border-radius: 8px;
-  background-color: white;
-  padding: 20px 16px;
+  width: 300px;
+  border-radius: 12px;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 8px 20px silver;
+  border: 1px solid gainsboro;
 }
 
 .info h2 {
-  margin: 10px 0;
-  color: navy;
+  margin: 12px 0;
+  color: darkslateblue;
+  font-size: 20px;
 }
 
 .info h3 {
   margin: 8px 0;
-  color: dimgray;
+  color: slategray;
+  font-size: 16px;
 }
 
 button {
-  margin: 6px 6px 0 0;
-  padding: 10px 16px;
-  border: 1px solid steelblue;
-  border-radius: 6px;
-  background-color: aliceblue;
-  color: navy;
+  margin: 8px 8px 0 0;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: mediumslateblue;
+  color: white;
+  font-weight: 500;
   cursor: pointer;
 }
 
 button:hover {
-  background-color: lightsteelblue;
+  background: royalblue;
 }
 
 .legend {
   margin-top: 20px;
-  padding: 14px;
-  border: 1px solid lightgray;
-  border-radius: 6px;
-  background-color: whitesmoke;
-}
-
-.boardimg {
-  border: 2px solid lightgray;
-  border-radius: 6px;
+  padding: 16px;
+  border-radius: 10px;
+  background: whitesmoke;
+  border: 1px solid gainsboro;
 }

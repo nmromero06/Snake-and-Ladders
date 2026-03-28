@@ -7,16 +7,16 @@ import b2pawn from './b2pawn.png'
 
 function App() {
   let title = "Snakes and Ladders"
-  const [mypos, setmypos] = useState(1)
-  const [bot1pos, setbot1pos] = useState(1)
-  const [bot2pos, setbot2pos] = useState(1)
+  const [mypos, setmypos] = useState(0)
+  const [bot1pos, setbot1pos] = useState(0)
+  const [bot2pos, setbot2pos] = useState(0)
   const [numbots, setnumbots] = useState(1)
   const [message, setmessage] = useState("Press Roll Dice to play!")
   const rolldice = () => {
     return Math.floor(Math.random() * 6) + 1
   }
   const checksnakeladder = (pos) => {
-    // Ladders
+    // ladders
     if (pos === 1)  { return 38 }
     if (pos === 4)  { return 14 }
     if (pos === 8)  { return 30 }
@@ -25,7 +25,7 @@ function App() {
     if (pos === 28) { return 76 }
     if (pos === 71) { return 92 }
     if (pos === 80) { return 99 }
-    // Snakes
+    // snakes
     if (pos === 36) { return 6 }
     if (pos === 32) { return 10 }
     if (pos === 48) { return 26 }
@@ -44,9 +44,9 @@ function App() {
     return newpos
   }
   const resetgame = () => {
-    setmypos(1)
-    setbot1pos(1)
-    setbot2pos(1)
+    setmypos(0)
+    setbot1pos(0)
+    setbot2pos(0)
     setmessage("Game reset! Press Roll Dice to play.")
   }
   const switchbots = () => {
@@ -55,7 +55,7 @@ function App() {
       setmessage("Now playing with 2 bots!")
     } else {
       setnumbots(1)
-      setbot2pos(1)
+      setbot2pos(0)
       setmessage("Now playing with 1 bot!")
     }
   }
@@ -107,34 +107,26 @@ function App() {
     return [x, y]
   }
   const rendertokens = () => {
-    let mepos = getsquarepos(mypos)
-    let b1pos = getsquarepos(bot1pos)
-    let mestyle = {
-      left: "calc(" + mepos[0] + " + -6px)",
-      top: "calc(" + mepos[1] + " + -6px)",
-    }
-    let b1style = {
-      left: "calc(" + b1pos[0] + " + 6px)",
-      top: "calc(" + b1pos[1] + " + -6px)",
+    const gettokenstyle = (pos, left) => {
+      let tokenpos = getsquarepos(pos)
+      return {
+        left: "calc(" + tokenpos[0] + " + " + left + "px)",
+        top: "calc(" + tokenpos[1] + " + -6px)",
+      }
     }
     if (numbots === 2) {
-      let b2pos = getsquarepos(bot2pos)
-      let b2style = {
-        left: "calc(" + b2pos[0] + " + 0px)",
-        top: "calc(" + b2pos[1] + " + -6px)",
-      }
       return (
         <>
-          <img src={mepawn} alt="ME" className="token" style={mestyle} />
-          <img src={b1pawn} alt="B1" className="token" style={b1style} />
-          <img src={b2pawn} alt="B2" className="token" style={b2style} />
+          {mypos > 0 && <img src={mepawn} alt="ME" className="token" style={gettokenstyle(mypos, -6)} />}
+          {bot1pos > 0 && <img src={b1pawn} alt="B1" className="token" style={gettokenstyle(bot1pos, 6)} />}
+          {bot2pos > 0 && <img src={b2pawn} alt="B2" className="token" style={gettokenstyle(bot2pos, 0)} />}
         </>
       )
     }
     return (
       <>
-        <img src={mepawn} alt="ME" className="token" style={mestyle} />
-        <img src={b1pawn} alt="B1" className="token" style={b1style} />
+        {mypos > 0 && <img src={mepawn} alt="ME" className="token" style={gettokenstyle(mypos, -6)} />}
+        {bot1pos > 0 && <img src={b1pawn} alt="B1" className="token" style={gettokenstyle(bot1pos, 6)} />}
       </>
     )
   }
@@ -144,9 +136,7 @@ function App() {
       <div className="gamearea">
         <div className="boardwrap">
           <img src={boardimg} alt="Snakes and Ladders board" className="boardimg" />
-          <div className="tokenoverlay">
-            {rendertokens()}
-          </div>
+          <div className="tokenoverlay">{rendertokens()}</div>
         </div>
         <div className="info">
           <h2>Your position: {mypos}</h2>
